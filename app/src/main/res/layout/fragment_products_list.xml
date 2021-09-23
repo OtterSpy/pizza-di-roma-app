@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.ui.fragments.ProductsListFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".presentation.ui.fragments.productslistfragment.ProductsListFragment">
 
-</FrameLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextAppearance="@style/CustomTabStyle">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/all_tab_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_text" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/pizza_tab_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pizza_text" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sushi_tab_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sushi_text" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/other_tab_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other_text" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_list_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_bar"
+            app:spanCount="2"
+            tools:listitem="@layout/product_item_holder"
+            tools:ignore="RtlSymmetry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
