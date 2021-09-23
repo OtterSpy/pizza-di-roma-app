@@ -7,9 +7,9 @@ import retrofit2.http.Query
 interface PizzaDiRomaApi {
 
     @GET("api/v1/products")
-    suspend fun getProducts(@Query("type") type: String) : List<ProductsListDtoItem>
+    suspend fun getProducts(@Query("type") type: String): List<ProductsListDtoItem>
 
     @GET("api/v1/products/{id}")
-    suspend fun getProductDetail(@Query("id") productId: Int) : ProductsListDtoItem
+    suspend fun getProductDetail(@Query("id") productId: Int): ProductsListDtoItem
 
 }

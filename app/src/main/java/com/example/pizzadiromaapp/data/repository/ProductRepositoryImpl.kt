@@ -7,7 +7,7 @@ import com.example.pizzadiromaapp.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
     private val pizzaDiRomaApi: PizzaDiRomaApi
-) : ProductRepository{
+) : ProductRepository {
 
     override suspend fun getProducts(type: String): List<ProductItem> =
         pizzaDiRomaApi.getProducts(type).map { it.toProductItem() }

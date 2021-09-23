@@ -40,6 +40,8 @@ class ProductsListFragment : Fragment() {
             )
         }
 
+        setupTabBar()
+
         checkSelectedTab()
 
         initObserver()
@@ -47,6 +49,10 @@ class ProductsListFragment : Fragment() {
         loadProducts()
 
         return binding.root
+    }
+
+    private fun setupTabBar() {
+
     }
 
     override fun onDestroyView() {

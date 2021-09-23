@@ -12,5 +12,5 @@ object RetrofitClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val pizzaDiRomaApi = client.create(PizzaDiRomaApi::class.java)
+    val pizzaDiRomaApi: PizzaDiRomaApi = client.create(PizzaDiRomaApi::class.java)
 }
