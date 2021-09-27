@@ -12,15 +12,12 @@ import com.example.pizzadiromaapp.singltone.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProductsListViewModel : ViewModel() {
+class ProductsViewModel : ViewModel() {
 
     private val _products = MutableLiveData<Resource<List<ProductItem>>>()
     val products: LiveData<Resource<List<ProductItem>>>
         get() = _products
-
-    private val _product = MutableLiveData<Resource<ProductItem>>()
-    val product: LiveData<Resource<ProductItem>>
-        get() = _product
+    var tabPosition: Int? = null
 
     private val getProductsUseCase =
         GetProductsUseCase(ProductRepositoryImpl(RetrofitClient.pizzaDiRomaApi))
@@ -38,5 +35,6 @@ class ProductsListViewModel : ViewModel() {
                 )
             }
         }
+
     }
 }

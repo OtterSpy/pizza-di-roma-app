@@ -21,8 +21,6 @@
         tools:layout="@layout/fragment_product_details">
         <argument
             android:name="productItem"
-            app:nullable="true"
-            android:defaultValue="@null"
             app:argType="com.example.pizzadiromaapp.domain.model.ProductItem" />
     </fragment>
 </navigation>

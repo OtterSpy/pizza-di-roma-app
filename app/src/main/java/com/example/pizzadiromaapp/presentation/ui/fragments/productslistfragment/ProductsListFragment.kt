@@ -18,19 +18,19 @@ class ProductsListFragment : Fragment() {
 
     private var _binding: FragmentProductsListBinding? = null
     private val binding get() = _binding!!
+    var type: String = ""
 
     //    private val trep = ProductRepositoryImpl(RetrofitClient.pizzaDiRomaApi)
 //    private val getProductsUseCase = GetProductsUseCase(trep)
     private val productsAdapter by lazy { ProductsRecyclerViewAdapter(requireActivity()) }
 
-    private val viewModel: ProductsListViewModel by viewModels()
+    private val viewModel: ProductsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProductsListBinding.inflate(inflater, container, false)
-
         binding.productListRecyclerView.adapter = productsAdapter
         productsAdapter.setOnItemClickListener { productItem ->
             findNavController().navigate(
@@ -40,19 +40,16 @@ class ProductsListFragment : Fragment() {
             )
         }
 
-        setupTabBar()
+        binding.listSwipeToRefreshLayout.setOnRefreshListener {
+            initObserver()
+            Log.d("myLogs", "onCreateView:")
+        }
 
-        checkSelectedTab()
+        tabListener()
 
         initObserver()
 
-        loadProducts()
-
         return binding.root
-    }
-
-    private fun setupTabBar() {
-
     }
 
     override fun onDestroyView() {
@@ -60,15 +57,15 @@ class ProductsListFragment : Fragment() {
         _binding = null
     }
 
-    private fun checkSelectedTab() {
+    private fun tabListener() {
         binding.tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
                     when (tab.position) {
+                        0 -> loadProducts(ProductType.ALL.text)
                         1 -> loadProducts(ProductType.PIZZA.text)
                         2 -> loadProducts(ProductType.SUSHI.text)
                         3 -> loadProducts(ProductType.OTHER.text)
-                        else -> loadProducts(ProductType.ALL.text)
                     }
                 }
             }
@@ -92,15 +89,13 @@ class ProductsListFragment : Fragment() {
                 }
                 is Resource.Loading -> {
                     Log.d("QQQ", "resources: $resources")
+                    binding.listSwipeToRefreshLayout.isRefreshing = true
                     // show progress bar
                 }
                 is Resource.Success -> {
                     Log.d("QQQ", "resources: $resources")
-
+                    binding.listSwipeToRefreshLayout.isRefreshing = false
                     productsAdapter.submitList(resources.data)
-
-                    Log.d("myLogs", "loadProducts: ")
-
                 }
             }
         })
@@ -108,5 +103,24 @@ class ProductsListFragment : Fragment() {
 
     private fun loadProducts(type: String = "") {
         viewModel.getProducts(type)
+        viewModel.tabPosition = binding.tabBar.selectedTabPosition
+    }
+
+    private fun checkSelectedTab() {
+        if (viewModel.tabPosition != null) {
+            binding.tabBar.selectTab(binding.tabBar.getTabAt(viewModel.tabPosition!!))
+        } else {
+            loadProducts()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkSelectedTab()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("myLogs", "onDestroy: ")
     }
 }

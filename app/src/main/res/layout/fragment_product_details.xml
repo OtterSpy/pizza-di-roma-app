@@ -2,69 +2,108 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.ui.fragments.productdetailfragment.ProductDetailsFragment">
+    <data>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/detail_image_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="1"
-            app:layout_constraintHeight_percent="0.54"
-            tools:src="@tools:sample/avatars" />
+        <variable
+            name="viewModel"
+            type="com.example.pizzadiromaapp.presentation.ui.fragments.productdetailfragment.ProductDetailViewModel" />
+    </data>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/detail_price_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/price_background"
-            android:textColor="@color/black"
-            android:paddingHorizontal="@dimen/_16sdp"
-            android:paddingVertical="@dimen/_8sdp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="testText"
-            app:layout_constraintBottom_toBottomOf="@id/detail_image_view"
-            app:layout_constraintEnd_toEndOf="@id/detail_image_view" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/detail_swipe_to_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/detail_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            tools:text="productName"
-            android:textSize="25sp"
-            android:paddingHorizontal="@dimen/_8sdp"
-            android:paddingTop="@dimen/_8sdp"
-            app:layout_constraintTop_toBottomOf="@id/detail_image_view"
-            app:layout_constraintStart_toStartOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/detail_weight_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/_8sdp"
-            tools:text="weight"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_name_text_view"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".presentation.ui.fragments.productdetailfragment.ProductDetailsFragment">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/detail_description_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_8sdp"
-            android:textColor="@color/black"
-            tools:text="description"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_weight_text_view"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/detail_image_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                image="@{viewModel.detailImage}"
+                app:layout_constraintHeight_percent="0.54"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="1"
+                tools:src="@tools:sample/avatars" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/detail_back_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/back_button_background"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/back_button_background"
+                    android:padding="@dimen/_6sdp"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_24" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_price_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/price_background"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_8sdp"
+                android:text="@{viewModel.detailPriceText}"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/detail_image_view"
+                app:layout_constraintEnd_toEndOf="@id/detail_image_view"
+                tools:text="testText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:text="@{viewModel.detailNameText}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_image_view"
+                tools:text="productName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_weight_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:textSize="18sp"
+                android:text="@{viewModel.detailWeightText}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_name_text_view"
+                tools:text="weight" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:text="@{viewModel.detailDescriptionText}"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_weight_text_view"
+                tools:text="description" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
