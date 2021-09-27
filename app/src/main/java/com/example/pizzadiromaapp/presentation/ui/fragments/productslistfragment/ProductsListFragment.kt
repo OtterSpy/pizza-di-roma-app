@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pizzadiromaapp.common.ProductType
 import com.example.pizzadiromaapp.common.Resource
 import com.example.pizzadiromaapp.databinding.FragmentProductsListBinding
@@ -21,7 +22,7 @@ class ProductsListFragment : Fragment() {
     var type: String = ""
 
     //    private val trep = ProductRepositoryImpl(RetrofitClient.pizzaDiRomaApi)
-//    private val getProductsUseCase = GetProductsUseCase(trep)
+    //    private val getProductsUseCase = GetProductsUseCase(trep)
     private val productsAdapter by lazy { ProductsRecyclerViewAdapter(requireActivity()) }
 
     private val viewModel: ProductsViewModel by viewModels()
@@ -32,6 +33,7 @@ class ProductsListFragment : Fragment() {
     ): View {
         _binding = FragmentProductsListBinding.inflate(inflater, container, false)
         binding.productListRecyclerView.adapter = productsAdapter
+        //Log.d("myLogs", "onCreateView: $holderType")
         productsAdapter.setOnItemClickListener { productItem ->
             findNavController().navigate(
                 ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsFragment(
@@ -95,7 +97,10 @@ class ProductsListFragment : Fragment() {
                 is Resource.Success -> {
                     Log.d("QQQ", "resources: $resources")
                     binding.listSwipeToRefreshLayout.isRefreshing = false
-                    productsAdapter.submitList(resources.data)
+                    (binding.productListRecyclerView.layoutManager as GridLayoutManager).spanCount =
+                        if (resources.data.isEmpty()) 1 else 2
+                    Log.d("myLogs", "initObserver: ${resources.data}")
+                    productsAdapter.mySubmitList(resources.data)
                 }
             }
         })
@@ -117,10 +122,5 @@ class ProductsListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         checkSelectedTab()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("myLogs", "onDestroy: ")
     }
 }

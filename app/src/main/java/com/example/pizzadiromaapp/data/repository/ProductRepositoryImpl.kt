@@ -10,7 +10,9 @@ class ProductRepositoryImpl(
 ) : ProductRepository {
 
     override suspend fun getProducts(type: String): List<ProductItem> =
-        pizzaDiRomaApi.getProducts(type).map { it.toProductItem() }
+        pizzaDiRomaApi.getProducts(type)
+            .filter { it.type != "OTHER" }
+            .map { it.toProductItem() }
 
     override suspend fun getProductById(productId: Int): ProductItem =
         pizzaDiRomaApi.getProductDetail(productId).toProductItem()
