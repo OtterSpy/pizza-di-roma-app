@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.pizzadiromaapp.common.ProductType
 import com.example.pizzadiromaapp.common.Resource
+import com.example.pizzadiromaapp.common.Util.getDp
 import com.example.pizzadiromaapp.databinding.FragmentProductsListBinding
+import com.example.pizzadiromaapp.domain.model.ProductType
+import com.example.pizzadiromaapp.presentation.helpers.GridSpacingItemDecoration
+import com.example.pizzadiromaapp.presentation.ui.MainApplication
 import com.example.pizzadiromaapp.presentation.ui.fragments.productslistfragment.adapter.ProductsRecyclerViewAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -21,11 +24,11 @@ class ProductsListFragment : Fragment() {
     private val binding get() = _binding!!
     var type: String = ""
 
-    //    private val trep = ProductRepositoryImpl(RetrofitClient.pizzaDiRomaApi)
-    //    private val getProductsUseCase = GetProductsUseCase(trep)
     private val productsAdapter by lazy { ProductsRecyclerViewAdapter(requireActivity()) }
 
-    private val viewModel: ProductsViewModel by viewModels()
+    private val viewModel: ProductsViewModel by viewModels {
+        (requireActivity().application as MainApplication).appComponent.factory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +36,13 @@ class ProductsListFragment : Fragment() {
     ): View {
         _binding = FragmentProductsListBinding.inflate(inflater, container, false)
         binding.productListRecyclerView.adapter = productsAdapter
-        //Log.d("myLogs", "onCreateView: $holderType")
+        binding.productListRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(
+                2,
+                activity?.getDp(10f)!!,
+                true
+            )
+        )
         productsAdapter.setOnItemClickListener { productItem ->
             findNavController().navigate(
                 ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsFragment(
@@ -47,7 +56,7 @@ class ProductsListFragment : Fragment() {
             Log.d("myLogs", "onCreateView:")
         }
 
-        tabListener()
+        initTabListener()
 
         initObserver()
 
@@ -59,7 +68,7 @@ class ProductsListFragment : Fragment() {
         _binding = null
     }
 
-    private fun tabListener() {
+    private fun initTabListener() {
         binding.tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {

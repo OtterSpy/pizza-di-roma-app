@@ -5,22 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pizzadiromaapp.common.Resource
-import com.example.pizzadiromaapp.data.repository.ProductRepositoryImpl
 import com.example.pizzadiromaapp.domain.model.ProductItem
 import com.example.pizzadiromaapp.domain.usecases.GetProductsUseCase
-import com.example.pizzadiromaapp.singltone.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductsViewModel : ViewModel() {
+class ProductsViewModel @Inject constructor(private val getProductsUseCase: GetProductsUseCase) :
+    ViewModel() {
 
     private val _products = MutableLiveData<Resource<List<ProductItem>>>()
     val products: LiveData<Resource<List<ProductItem>>>
         get() = _products
     var tabPosition: Int? = null
-
-    private val getProductsUseCase =
-        GetProductsUseCase(ProductRepositoryImpl(RetrofitClient.pizzaDiRomaApi))
 
     fun getProducts(type: String) {
         _products.value = Resource.loading()

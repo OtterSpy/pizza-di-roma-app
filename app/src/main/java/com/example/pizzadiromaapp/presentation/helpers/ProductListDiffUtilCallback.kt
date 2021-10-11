@@ -1,4 +1,4 @@
-package com.example.pizzadiromaapp.helpers
+package com.example.pizzadiromaapp.presentation.helpers
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.pizzadiromaapp.domain.model.ProductItem

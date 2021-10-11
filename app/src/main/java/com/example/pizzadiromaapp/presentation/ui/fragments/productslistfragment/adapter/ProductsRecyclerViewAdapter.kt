@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -78,21 +79,18 @@ class ProductsRecyclerViewAdapter(
         with(holder) {
             when (this) {
                 is ItemPlaceHolder -> {
-                    binding.placeHolderCardView.layoutParams.width =
-                        activity.window.decorView.width - itemView.context.resources.getDimension(
-                            R.dimen._20sdp
-                        )
-                            .roundToInt()
                     binding.titlePlaceHolderTextView.text =
                         activity.resources.getText(R.string.karasik_not_found_text)
                 }
                 is ProductViewHolder -> {
                     items[position].let { product ->
-                        binding.mainCard.layoutParams.width =
-                            activity.window.decorView.width / 2 - itemView.context.resources.getDimension(
-                                R.dimen._15sdp
-                            )
-                                .roundToInt()
+                        (binding.mainCard.layoutParams as GridLayoutManager.LayoutParams).apply {
+
+                            width =
+                                activity.window.decorView.width / 2 - itemView.context.resources.getDimension(
+                                    R.dimen._15sdp
+                                ).roundToInt()
+                        }
 
                         binding.mainCard.setOnClickListener {
                             onItemClickListener?.invoke(product)
@@ -108,7 +106,8 @@ class ProductsRecyclerViewAdapter(
                             append(product.weight)
                             append(" г")
                         }
-                        binding.productPriceTextView.text = product.price.toString()
+                        binding.productPriceTextView.text =
+                            StringBuilder(product.price.roundToInt().toString() + " грн")
                     }
                 }
             }

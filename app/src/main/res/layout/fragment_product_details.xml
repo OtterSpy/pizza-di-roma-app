@@ -6,6 +6,14 @@
     <data>
 
         <variable
+            name="fragment"
+            type="com.example.pizzadiromaapp.presentation.ui.fragments.productdetailfragment.ProductDetailsFragment" />
+
+        <variable
+            name="productItem"
+            type="com.example.pizzadiromaapp.domain.model.ProductItem" />
+
+        <variable
             name="viewModel"
             type="com.example.pizzadiromaapp.presentation.ui.fragments.productdetailfragment.ProductDetailViewModel" />
     </data>
@@ -16,17 +24,19 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".presentation.ui.fragments.productdetailfragment.ProductDetailsFragment">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/detail_image_view"
+                image="@{productItem.imageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{(v) -> fragment.click()}"
                 android:scaleType="centerCrop"
-                image="@{viewModel.detailImage}"
                 app:layout_constraintHeight_percent="0.54"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -60,7 +70,7 @@
                 android:background="@drawable/price_background"
                 android:paddingHorizontal="@dimen/_16sdp"
                 android:paddingVertical="@dimen/_8sdp"
-                android:text="@{viewModel.detailPriceText}"
+                android:text="@{String.valueOf(Math.round(productItem.price)) + ` грн`}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -74,9 +84,9 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/_8sdp"
                 android:paddingTop="@dimen/_8sdp"
+                android:text="@{productItem.name}"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                android:text="@{viewModel.detailNameText}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_image_view"
                 tools:text="productName" />
@@ -86,8 +96,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/_8sdp"
+                android:text="@{String.valueOf(productItem.weight) + ` г`}"
                 android:textSize="18sp"
-                android:text="@{viewModel.detailWeightText}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_name_text_view"
                 tools:text="weight" />
@@ -97,13 +107,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_8sdp"
+                android:text="@{productItem.description}"
                 android:textColor="@color/black"
-                android:text="@{viewModel.detailDescriptionText}"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_weight_text_view"
                 tools:text="description" />
-
+             
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
