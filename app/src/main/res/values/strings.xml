@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">PizzaDiRomaApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_bar_title">Pizza Di Roma</string>
+    <string name="all_text">Все</string>
+    <string name="pizza_text">Пицца</string>
+    <string name="sushi_text">Суши</string>
+    <string name="other_text">Другое</string>
+    <string name="karasik_not_found_text">Ошибка 404\nKarasik Not Found</string>
 </resources>

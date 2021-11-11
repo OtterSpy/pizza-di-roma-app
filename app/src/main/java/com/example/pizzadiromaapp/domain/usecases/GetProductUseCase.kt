@@ -4,10 +4,10 @@ import com.example.pizzadiromaapp.domain.model.ProductItem
 import com.example.pizzadiromaapp.domain.repository.ProductRepository
 import javax.inject.Inject
 
-class GetProductsUseCase @Inject constructor(
+class GetProductUseCase @Inject constructor(
     private val repository: ProductRepository
 ) {
-    suspend operator fun invoke(type: String): List<ProductItem> {
-        return repository.getProducts(type)
+    suspend operator fun invoke(id: Int): ProductItem {
+        return repository.getProductById(id)
     }
 }
